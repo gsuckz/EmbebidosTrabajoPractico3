@@ -22,5 +22,9 @@
         "**/__pycache__": true,
         ".pytest_cache": true,
         ".coverage": true
+    },
+    "files.associations": {
+        "stdio.h": "c",
+        "alumno.h": "c"
     }
 }
