@@ -14,6 +14,8 @@ $(OUT_DIR):
 
 $(OBJ_DIR) : $(OUT_DIR)
 		mkdir $(OBJ_DIR)		
+$(BIN_DIR): $(OUT_DIR)
+	mkdir $(BIN_DIR)
 
 $(INC_DIR) : 
 		mkdir $(INC_DIR)		

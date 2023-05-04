@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
-#define TAMANO 100
-
+#define sizeword 100
+#define opcion   2
 struct alumno_s {
-    char apellido[TAMANO];
-    char nombre[TAMANO];
+    char apellido[sizeword];
+    char nombre[sizeword];
     uint32_t documento;
-    //   bool ocupado;             //otra forma
+    bool ocupado;
 };
 
 static int SerializarCadena(const char * campo, const char * valor, char * cadena, int espacio) {
@@ -20,23 +21,51 @@ static int SerializarNumero(const char * campo, int valor, char * cadena, int es
     return snprintf(cadena, espacio, "\"%s\":\"%d\",", campo, valor);
 }
 
-// static struct alumno_s instancias[50] = {0}; //50 huecos              //otra forma
-
 alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
-    alumno_t resultado =
+    alumno_t resultado;
+
+#if opcion == 1
+    resultado =
         malloc(sizeof(struct alumno_s)); // Malloc se usa para crear "objetos" de forma dinamica
-    strcpy(resultado->apellido, apellido);
-    strcpy(resultado->nombre, nombre);
-    resultado->documento = documento;
+    if (resultado != NULL) {
+        strcpy(resultado->apellido, apellido);
+        strcpy(resultado->nombre, nombre);
+        resultado->documento = documento;
+    } else {
+        return NULL;
+    }
+
+#else
+
+    static struct alumno_s instancias[50] = {0};
+
+    uint8_t i = 0;
+
+    for (uint8_t i = 0; i <= 50; i++) {
+
+        if (instancias[i].ocupado == 0) {
+
+            resultado = &instancias[i];
+            strcpy(instancias[i].apellido, apellido);
+            strcpy(instancias[i].nombre, nombre);
+            instancias[i].documento = documento;
+            instancias[i].ocupado = true;
+
+            return resultado;
+        }
+    }
+
+#endif
+
     return resultado;
 }
 
 int GetCompleto(alumno_t alumno, char cadena[], uint32_t espacio) {
-    return -1; // para sacar warning
+    return -1;
 }
 
 int GetDocumento(alumno_t alumno) {
-    return -1; // para sacar warning
+    return -1;
 }
 
 int Serializar(alumno_t alumno, char cadena[], uint32_t espacio) {
