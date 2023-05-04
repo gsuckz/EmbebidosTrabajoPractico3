@@ -5,7 +5,6 @@
 extern "C" {
 #endif
 #include <stdint.h>
-#define TAMANO 100
 
 //! Estructura para almacenar datos de un alumno
 typedef struct alumno_s * alumno_t;
