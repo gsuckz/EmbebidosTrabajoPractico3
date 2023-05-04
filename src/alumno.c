@@ -12,15 +12,29 @@ struct alumno_s {
     uint32_t documento;
     bool ocupado;
 };
-
+/// @brief Imprime una cadena de caracteres en consola
+/// @param campo
+/// @param valor
+/// @param cadena
+/// @param espacio
+/// @return Tamaño de la cadena o un numero negatico si no fue suficiente
 static int SerializarCadena(const char * campo, const char * valor, char * cadena, int espacio) {
     return snprintf(cadena, espacio, "\"%s\":\"%s\",", campo, valor);
 }
-
+/// @brief Imprime un numero en la consola
+/// @param campo
+/// @param valor
+/// @param cadena
+/// @param espacio
+/// @return Tamaño de la cadena o un numero negatico si no fue suficiente
 static int SerializarNumero(const char * campo, int valor, char * cadena, int espacio) {
     return snprintf(cadena, espacio, "\"%s\":\"%d\",", campo, valor);
 }
-
+/// @brief Genera un Struct con los datos del alumno, puede almacenarse de forma estática o dinámica
+/// @param apellido
+/// @param nombre
+/// @param documento
+/// @return Retorna Puntero a la estructura creada
 alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
     alumno_t resultado;
 
@@ -59,15 +73,11 @@ alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
 
     return resultado;
 }
-
-int GetCompleto(alumno_t alumno, char cadena[], uint32_t espacio) {
-    return -1;
-}
-
-int GetDocumento(alumno_t alumno) {
-    return -1;
-}
-
+/// @brief Convierte a una cadena los datos del struct en formato JSON
+/// @param alumno Struct con los datos
+/// @param cadena Direccion de la cadena donde se guardaran los datos
+/// @param espacio Tamaño de la cadena
+/// @return Tamaño de la cadena o -1 si no fue suficiente el espacio
 int Serializar(alumno_t alumno, char cadena[], uint32_t espacio) {
     int disponibles = espacio;
     int resultado;
@@ -95,6 +105,8 @@ int Serializar(alumno_t alumno, char cadena[], uint32_t espacio) {
         *(cadena - 1) = '}';
         resultado = espacio - disponibles;
     }
-
+    if (resultado < 0) {
+        return -1;
+    }
     return resultado;
 }
